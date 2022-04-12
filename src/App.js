@@ -1,23 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import Card from './components/Card'
+import MainCard from './components/MainCard';
+import Deck from './components/Deck';
 
 function App() {
+
+  const renderCards = () => {
+    return [...Array(5)].map(() => <Card cardNumber={Math.floor(Math.random() * 15)} />);
+  }
+
+  const gameOver = (value) => {
+    if (!value) {
+      alert('GAME OVER!!!');
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* Top view */}
+      <div className="Top">
+        {renderCards()}
+      </div>
+      {/* Bottom view */}
+      <div className="Bottom">
+        <Deck gameOver={gameOver} />
+        <MainCard />
+      </div>
     </div>
   );
 }
