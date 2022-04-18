@@ -1,2 +1,4 @@
-Simple Card Game to get to know Redux and React Hooks.
+Simple Card Game to get familiar with:
+- Redux,
+- React Hooks
 

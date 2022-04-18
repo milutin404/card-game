@@ -1,21 +1,21 @@
-import { getValue } from "@testing-library/user-event/dist/utils"
-import { useEffect, useState } from "react"
+import { useSelector } from "react-redux";
 
 function MainCard() {
 
-    let [value, setvalue] = useState(Math.floor(Math.random() * 15));
+    const mainCardValue = useSelector(state => state.mainCardValue);
 
     return (
         <div
             style={{
                 backgroundColor: 'lightBlue',
+                fontSize: '48px',
                 border: '2px dotted blue',
                 width: 140,
                 height: 220,
                 margin: 10
             }}
         >
-            {value}
+            {mainCardValue ? mainCardValue : Math.floor(Math.random() * 15)}
         </div>
     )
 }
