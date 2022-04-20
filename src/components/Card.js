@@ -1,10 +1,18 @@
 import { useDispatch } from 'react-redux';
-import { useStore } from 'react-redux';
 import compareValues from './../actions/compareValues'
 
 function Card(props) {
 
     const dispatch = useDispatch();
+
+    /**
+     * Sends action to compare and update MainCard,
+     * Callback to parent to remove it from cards.
+     */
+    const onClickHandler = () => {
+        dispatch(compareValues(props.cardNumber));
+        props.removeCard(props);
+    }
 
     return (
         <div
@@ -16,7 +24,7 @@ function Card(props) {
                 height: 220,
                 margin: 10
             }}
-            onClick={() => dispatch(compareValues(props.cardNumber))}
+            onClick={onClickHandler}
         >
             {props.cardNumber}
         </div>

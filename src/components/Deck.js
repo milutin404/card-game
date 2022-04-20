@@ -9,7 +9,9 @@ function Deck(props) {
 
     const changeCounter = () => {
         setCounter(counter - 1);
-        props.gameOver(counter - 1);
+        if (counter - 1 === 0) {
+            props.gameOver('GAME OVER !!!');
+        }
         dispatch(refreshMainCard())
     }
     return (
