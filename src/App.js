@@ -5,7 +5,7 @@ import Deck from './components/Deck';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux';
 import allReducers from './reducers';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const store = createStore(
   allReducers,
@@ -14,54 +14,64 @@ const store = createStore(
 
 function App() {
 
-  let [cards, setCards] = useState([]);
+  let [cards, setCards] = useState([{
+    value: 5,
+    id: 1
+  }, {
+    value: 6,
+    id: 2
+  }, {
+    value: 4,
+    id: 3
+  }, {
+    value: 7,
+    id: 4
+  }, {
+    value: 3,
+    id: 5
+  }]);
 
-
-  useEffect(() => {
-    cards = renderCards();
-    setCards(cards);
-  }, []);
-
-
+  /**
+   * Create Card components from cards (state).
+   * 
+   * @returns <Card />
+   */
   const renderCards = () => {
-    return [...Array(5)].map(() => {
-      const id = Date.now() + Math.random() * 100;
+    return cards.map((card) => {
       return <Card
-        key={'Card-' + id}
-        cardId={id}
-        cardNumber={Math.floor(Math.random() * 15)}
+        key={'Card-' + card.id}
+        cardId={card.id}
+        cardNumber={card.value}
         removeCard={removeCard}
       />
     });
   }
 
+  /**
+   * Checks is selected Card and MainCard have same value,
+   * Removes that card from array and sets new state,
+   * If there is no cards, calls endGame with 'YOU WON !!!' message.
+   * 
+   * @param {*} cardData 
+   */
   const removeCard = (cardData) => {
-    let mainCardValue = store.getState()['mainCardValue']
+    const mainCardValue = store.getState()['mainCardValue']
     if (cardData.cardNumber === mainCardValue) {
-      cards = removeClickedCard(cardData);
-      setCards(cards);
+      setCards(cards.filter(card => card.id !== cardData.cardId));
 
-      if (!checkIfNoCardsLeft()) {
-        gameEnd('YOU WON!!!');
+      // Display win msg
+      if (cards.length === 1) {
+        gameEnd('YOU WON !!!');
       };
     }
   }
 
-  const checkIfNoCardsLeft = () => {
-    let howManyLeft = cards.filter(card => card !== null);
-    return howManyLeft.length;
-  }
-
-  const removeClickedCard = (cardData) => {
-    return cards.map((card) => {
-      if (card !== null) {
-        return card.props.cardId !== cardData.cardId ? card : null;
-      } else {
-        return null;
-      }
-    });
-  }
-
+  /**
+   * Opens Alert with message.
+   * msg = 'YOU WON !!!' || 'GAME OVER !!!'
+   *
+   * @param {String} msg 
+   */
   const gameEnd = (msg) => {
     alert(msg);
   }
@@ -71,7 +81,7 @@ function App() {
       <div className="App">
         {/* Top view */}
         <div className="Top">
-          {cards}
+          {renderCards()}
         </div>
         {/* Bottom view */}
         <div className="Bottom">

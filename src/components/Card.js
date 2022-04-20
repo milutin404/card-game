@@ -5,6 +5,10 @@ function Card(props) {
 
     const dispatch = useDispatch();
 
+    /**
+     * Sends action to compare and update MainCard,
+     * Callback to parent to remove it from cards.
+     */
     const onClickHandler = () => {
         dispatch(compareValues(props.cardNumber));
         props.removeCard(props);
